@@ -86,7 +86,12 @@ namespace _4EverNote
                 }
                 dataGrid.Rows[i].Cells[1].Value = parsednote.Name;
                 if (parsednote.Info.EventTime != null)
-                    dataGrid.Rows[i].Cells[2].Value = parsednote.Info.EventTime;
+                {
+                    if (parsednote.Info.EventTime == DateTime.MinValue.AddYears(1755))
+                        dataGrid.Rows[i].Cells[2].Value = "none";
+                    else
+                        dataGrid.Rows[i].Cells[2].Value = parsednote.Info.EventTime;
+                }
                 if (parsednote.Info.Content != null)
                 {
                     if (parsednote.Info.Content.Length < 15)
