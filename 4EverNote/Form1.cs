@@ -34,6 +34,7 @@ namespace _4EverNote
                 Application.Exit();
             }
             RefreshGrid();
+            timer1.Enabled = true;
         }
 
         /// <summary>
