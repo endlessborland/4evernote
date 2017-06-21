@@ -10,24 +10,11 @@ namespace _4EverNote
     class FNote
     {
         private bool _isValid;
-        private string _name;
         private Note newNote;
         private string _serizlized;
+        private string guid;
 
         public JNote Info;
-
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-
-            set
-            {
-                _name = value;
-            }
-        }
 
         public bool IsValid
         {
@@ -55,6 +42,19 @@ namespace _4EverNote
             }
         }
 
+        public string Guid
+        {
+            get
+            {
+                return guid;
+            }
+
+            set
+            {
+                guid = value;
+            }
+        }
+
         public FNote()
         {
             _isValid = true;
@@ -62,11 +62,12 @@ namespace _4EverNote
             Info = new JNote();
         }
 
-        public FNote(string serialized)
+        public FNote(string serialized, string GUID)
         {
             _isValid = true;
             newNote = new Note();
             Info = new JNote();
+            guid = GUID;
             ParseToFNote(serialized);
         }
 
@@ -82,7 +83,7 @@ namespace _4EverNote
             writer.WriteEndDocument();
             newNote.Content = writer.Contents.ToString();
             newNote.NotebookGuid = ESession.NoteBook.Guid;
-            newNote.Title = _name;
+            newNote.Title = Info.Title;
         }
 
         /// <summary>
@@ -94,7 +95,8 @@ namespace _4EverNote
             return await Task.Run(() =>
             {
                 NoteToJSON();
-                return ESession.NoteStore.CreateNote(newNote).Guid;
+                guid = ESession.NoteStore.CreateNote(newNote).Guid;
+                return guid;
             });
         }
 
@@ -109,6 +111,7 @@ namespace _4EverNote
                 try
                 {
                     newNote = ESession.NoteStore.GetNote(GUID, true, false, false, false);
+                    guid = GUID;
                     ParseToFNote(newNote.Content);
                 }
                 catch
@@ -124,17 +127,20 @@ namespace _4EverNote
         /// <param name="note">Content</param>
         private void ParseToFNote(string noteContent)
         {
+            if (noteContent.StartsWith("4evernote-5836"))
+                goto skip;
             noteContent = Regex.Match(noteContent, @"(?<=<en-note>)(.*)(?=</en-note>)").ToString();
             if (!noteContent.StartsWith("4evernote-5836"))
             {
                 IsValid = false;
+                return;
             }
+            skip:
             _serizlized = noteContent;
             noteContent = noteContent.Substring(14);
             try
             {
                 Info = JsonConvert.DeserializeObject<JNote>(noteContent);
-                Name = Info.Title;
             }
             catch
             {
@@ -151,7 +157,7 @@ namespace _4EverNote
         {
             await Task.Run(() =>
             {
-                ESession.NoteStore.DeleteNote(Info.GUID);
+                ESession.NoteStore.DeleteNote(guid);
             });
         }
     }

@@ -11,14 +11,14 @@ namespace _4EverNote
     class DataBase
     {
         private string _path;
-        public SortedDictionary<DateTime, string> GuidTimeTable;
+        public SortedDictionary<string, string> GuidTimeTable;
 
         /// <summary>
         /// Initializes a local DB
         /// </summary>
         public DataBase()
         {
-            GuidTimeTable = new SortedDictionary<DateTime, string>();
+            GuidTimeTable = new SortedDictionary<string, string>();
             var path = new DirectoryInfo((Environment.GetEnvironmentVariable("TEMP") + "\\endlessborland-5836"));
             CheckDirectory(path);
             _path = Environment.GetEnvironmentVariable("TEMP") + "\\endlessborland-5836";
@@ -46,7 +46,7 @@ namespace _4EverNote
             {
                 serialized = reader.ReadToEnd();
             }
-            return new FNote(serialized);
+            return new FNote(serialized, GUID);
         }    
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace _4EverNote
         public void WriteNote(FNote note)
         {
             
-            string path = _path + "\\" + note.Info.GUID;
+            string path = _path + "\\" + note.Guid;
             using (StreamWriter writer = File.CreateText(path))
             {
                 writer.WriteLine(note.Serizlized);
@@ -88,7 +88,7 @@ namespace _4EverNote
                     note = ReadNote(file);
                     if (note.Info.IsReminderSet)
                     {
-                        GuidTimeTable.Add(note.Info.ReminderTime, note.Info.GUID);
+                        GuidTimeTable.Add(note.Info.ReminderTime, note.Guid);
                     }
                 }
             });
