@@ -74,6 +74,7 @@ namespace _4EverNote
         /// </summary>
         private async Task RefreshLocalDataBaseAsync()
         {
+            IProgress<int> progress = new Progress<int>(value => { progressBar1.Value = value; });
             await Task.Run(async () =>
             {
                 localDB = new DataBase();
@@ -81,15 +82,23 @@ namespace _4EverNote
                 var noteFilter = new NoteFilter();
                 noteFilter.NotebookGuid = ESession.NoteBook.Guid;
                 NoteList everNoteList;
-                for (var i = 0; i < noteCount; i++)
+                for (var i = 0; i < noteCount; i += 10)
                 {
-                    everNoteList = ESession.NoteStore.FindNotes(noteFilter, i, 1);
-                    var note = new FNote();
-                    await note.DownloadNoteAsync(everNoteList.Notes[0].Guid);
-                    note.Guid = everNoteList.Notes[0].Guid;
-                    localDB.WriteNote(note);
+                    progress.Report(i * 100 / noteCount);
+                    everNoteList = ESession.NoteStore.FindNotes(noteFilter, i, 10);
+                    foreach (var note in everNoteList.Notes)
+                    {
+                        var fnote = new FNote();
+                        await fnote.DownloadNoteAsync(note.Guid);
+                        fnote.Guid = note.Guid;
+                        localDB.WriteNote(fnote);
+                    }
                 }
+                progress.Report(100);
             });
+            label3.Text = "Done!";
+            addButton.Enabled = true;
+            deleteButton.Enabled = true;
         }
 
         private async void MainWindow_Load(object sender, EventArgs e)
@@ -106,9 +115,10 @@ namespace _4EverNote
             }
             eventTime.Value = DateTime.Now;
             reminderTime.Value = DateTime.Now;
+            addButton.Enabled = false;
+            deleteButton.Enabled = false;
             await RefreshLocalDataBaseAsync();
             RefreshGrid();
-            
         }
 
 
