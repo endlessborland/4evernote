@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.dataGrid = new System.Windows.Forms.DataGridView();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -46,6 +47,7 @@
             this.eventSet = new System.Windows.Forms.CheckBox();
             this.exit = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -118,7 +120,7 @@
             // 
             // eventTime
             // 
-            this.eventTime.CustomFormat = "dd:mm:yyyy MM:HH";
+            this.eventTime.CustomFormat = "dd.MM.yyyy HH:mm";
             this.eventTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.eventTime.Location = new System.Drawing.Point(498, 214);
             this.eventTime.Name = "eventTime";
@@ -128,7 +130,7 @@
             // 
             // reminderTime
             // 
-            this.reminderTime.CustomFormat = "dd:mm:yyyy MM:HH";
+            this.reminderTime.CustomFormat = "dd.MM.yyyy HH:mm";
             this.reminderTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.reminderTime.Location = new System.Drawing.Point(498, 260);
             this.reminderTime.Name = "reminderTime";
@@ -216,6 +218,11 @@
             this.deleteButton.UseVisualStyleBackColor = true;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
+            // timer
+            // 
+            this.timer.Interval = 500;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
             // MainWindow
             // 
             this.AcceptButton = this.addButton;
@@ -266,6 +273,7 @@
         private System.Windows.Forms.CheckBox eventSet;
         private System.Windows.Forms.Button exit;
         private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.Timer timer;
     }
 }
 

@@ -1,10 +1,11 @@
 ﻿using Evernote.EDAM.NoteStore;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Linq;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
 
 namespace _4EverNote
 {
@@ -13,6 +14,9 @@ namespace _4EverNote
         private DataBase localDB;
         private int noteCount;
         private Dictionary<int, string> id_guid;
+        private List<KeyValuePair<string, string>> guid_date;
+
+        
 
         public MainWindow()
         {
@@ -23,7 +27,7 @@ namespace _4EverNote
         /// <summary>
         /// Refreshes the table from the localDB
         /// </summary>
-        private void RefreshGrid()
+        private async void RefreshGrid()
         {
             dataGrid.Rows.Clear();
             id_guid.Clear();
@@ -42,6 +46,8 @@ namespace _4EverNote
                 id_guid.Add(i, note.Guid);
                 i++;
             }
+            guid_date = await localDB.GetReminderTimeInfoAsync();
+            timer.Enabled = true;
         }
 
         /// <summary>
@@ -98,8 +104,11 @@ namespace _4EverNote
                 // that happens if the login window is closed before auth
                 Application.Exit();
             }
+            eventTime.Value = DateTime.Now;
+            reminderTime.Value = DateTime.Now;
             await RefreshLocalDataBaseAsync();
             RefreshGrid();
+            
         }
 
 
@@ -126,7 +135,7 @@ namespace _4EverNote
                 note.Info.IsEventSet = false;
             }
             if (reminderSet.Checked)
-                note.Info.ReminderTime = eventTime.Value.ToString();
+                note.Info.ReminderTime = reminderTime.Value.ToString();
             else
             {
                 note.Info.ReminderTime = null;
@@ -184,6 +193,26 @@ namespace _4EverNote
         void windowFormClosed(object sender, FormClosedEventArgs e)
         {
             RefreshGrid();
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            if (guid_date != null && guid_date.Count > 0)
+            {
+                // that is truly awkward
+                if (guid_date.First().Value.Remove(guid_date.First().Value.Length - 3) 
+                    == DateTime.Now.ToString().Remove(DateTime.Now.ToString().Length - 3))
+                {
+                    
+                    var guid = guid_date.First().Key;
+                    guid_date.RemoveAt(0);
+                    var note = localDB.ReadNote(guid);
+                    var window = new NoteWindow(note, ref localDB);
+                    window.FormClosed += windowFormClosed;
+                    SystemSounds.Beep.Play();
+                    window.Show();
+                }
+            }
         }
     }
 }

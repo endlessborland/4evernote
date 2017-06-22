@@ -115,7 +115,7 @@
             // 
             // reminderTime
             // 
-            this.reminderTime.CustomFormat = "dd:mm:yyyy MM:HH";
+            this.reminderTime.CustomFormat = "dd.MM.yyyy HH:mm";
             this.reminderTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.reminderTime.Location = new System.Drawing.Point(12, 377);
             this.reminderTime.Name = "reminderTime";
@@ -125,7 +125,7 @@
             // 
             // eventTime
             // 
-            this.eventTime.CustomFormat = "dd:mm:yyyy MM:HH";
+            this.eventTime.CustomFormat = "dd.MM.yyyy HH:mm";
             this.eventTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.eventTime.Location = new System.Drawing.Point(12, 331);
             this.eventTime.Name = "eventTime";
@@ -189,7 +189,7 @@
             // 
             // createdTime
             // 
-            this.createdTime.CustomFormat = "dd:mm:yyyy MM:HH";
+            this.createdTime.CustomFormat = "dd.MM.yyyy HH:mm";
             this.createdTime.Enabled = false;
             this.createdTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.createdTime.Location = new System.Drawing.Point(12, 426);

@@ -25,6 +25,7 @@ namespace _4EverNote
             InitializeComponent();
             _note = note;
             _localDB = localDB;
+            TopMost = true;
         }
 
         private void NoteWindow_Load(object sender, EventArgs e)
@@ -46,7 +47,7 @@ namespace _4EverNote
                 reminderTime.Hide();
             }
             else
-                eventTime.Value = DateTime.Parse(_note.Info.ReminderTime);
+                reminderTime.Value = DateTime.Parse(_note.Info.ReminderTime);
             createdTime.Value = DateTime.Parse(_note.Info.Created);
         }
 
@@ -69,7 +70,7 @@ namespace _4EverNote
                 _note.Info.IsEventSet = false;
             }
             if (reminderSet.Checked)
-                _note.Info.ReminderTime = eventTime.Value.ToString();
+                _note.Info.ReminderTime = reminderTime.Value.ToString();
             else
             {
                 _note.Info.ReminderTime = null;

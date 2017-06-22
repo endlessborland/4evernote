@@ -11,14 +11,13 @@ namespace _4EverNote
     public class DataBase
     {
         private string _path;
-        public SortedDictionary<string, string> GuidTimeTable;
+        
 
         /// <summary>
         /// Initializes a local DB
         /// </summary>
         public DataBase()
         {
-            GuidTimeTable = new SortedDictionary<string, string>();
             var path = new DirectoryInfo((Environment.GetEnvironmentVariable("TEMP") + "\\endlessborland-5836"));
             CheckDirectory(path);
             _path = Environment.GetEnvironmentVariable("TEMP") + "\\endlessborland-5836";
@@ -73,24 +72,36 @@ namespace _4EverNote
             File.Delete(_path + "\\" + GUID);
         }
 
+        static int CompareByDateString(KeyValuePair<string, string> a, KeyValuePair<string, string> b)
+        {
+            return a.Value.CompareTo(b.Value);
+        }
+
         /// <summary>
         /// Returns a sorted datetime list of note IDs
         /// </summary>
         /// <returns>SortedDictionary</returns>
-        public async void GetReminderTimeInfo()
+        public async Task<List<KeyValuePair<string, string>>> GetReminderTimeInfoAsync()
         {
-            await Task.Run(() =>
+           return await Task.Run(() =>
             {
                 FNote note;
+                bool reminderExists = false;
+                var GuidTimeTable = new List<KeyValuePair<string, string>>();
                 string[] files = Directory.GetFiles(_path);
                 foreach (var file in files)
                 {
-                    note = ReadNote(file);
+                    note = ReadNote(Path.GetFileName(file));
                     if (note.Info.IsReminderSet)
                     {
-                        GuidTimeTable.Add(note.Info.ReminderTime, note.Guid);
+                        reminderExists = true;
+                        if (string.Compare(note.Info.ReminderTime, DateTime.Now.ToString()) > 0)
+                            GuidTimeTable.Add(new KeyValuePair<string, string>(note.Guid, note.Info.ReminderTime));
                     }
                 }
+                if (!reminderExists) return null;
+                GuidTimeTable.Sort(CompareByDateString);
+                return GuidTimeTable;
             });
         } 
     }
