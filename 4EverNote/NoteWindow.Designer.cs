@@ -99,6 +99,7 @@
             this.eventSet.Size = new System.Drawing.Size(15, 14);
             this.eventSet.TabIndex = 15;
             this.eventSet.UseVisualStyleBackColor = true;
+            this.eventSet.CheckedChanged += new System.EventHandler(this.eventSet_CheckedChanged);
             // 
             // reminderSet
             // 
@@ -110,6 +111,7 @@
             this.reminderSet.Size = new System.Drawing.Size(15, 14);
             this.reminderSet.TabIndex = 14;
             this.reminderSet.UseVisualStyleBackColor = true;
+            this.reminderSet.CheckedChanged += new System.EventHandler(this.reminderSet_CheckedChanged);
             // 
             // reminderTime
             // 

@@ -81,5 +81,23 @@ namespace _4EverNote
             await _note.UpdateNoteAsync();
             _localDB.WriteNote(_note);
         }
+
+        private void eventSet_CheckedChanged(object sender, EventArgs e)
+        {
+            eventTime.Show();
+            if (eventTime.Enabled)
+                eventTime.Enabled = false;
+            else
+                eventTime.Enabled = true;
+        }
+
+        private void reminderSet_CheckedChanged(object sender, EventArgs e)
+        {
+            reminderTime.Show();
+            if (reminderTime.Enabled)
+                reminderTime.Enabled = false;
+            else
+                reminderTime.Enabled = true;
+        }
     }
 }

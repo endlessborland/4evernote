@@ -177,7 +177,12 @@ namespace _4EverNote
             var guid = id_guid[int.Parse(thisRow.Cells[0].Value.ToString())];
             var note = localDB.ReadNote(guid);
             var window = new NoteWindow(note, ref localDB);
+            window.FormClosed += windowFormClosed;
             window.Show();
+        }
+
+        void windowFormClosed(object sender, FormClosedEventArgs e)
+        {
             RefreshGrid();
         }
     }
