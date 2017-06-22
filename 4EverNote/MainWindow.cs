@@ -1,5 +1,6 @@
 ﻿using Evernote.EDAM.NoteStore;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
@@ -11,10 +12,36 @@ namespace _4EverNote
     {
         private DataBase localDB;
         private int noteCount;
+        private Dictionary<int, string> id_guid;
 
         public MainWindow()
         {
             InitializeComponent();
+            id_guid = new Dictionary<int, string>();
+        }
+
+        /// <summary>
+        /// Refreshes the table from the localDB
+        /// </summary>
+        private void RefreshGrid()
+        {
+            dataGrid.Rows.Clear();
+            id_guid.Clear();
+            var i = 0;
+            GetNoteCount();
+            dataGrid.Rows.Add(noteCount - 1);
+            foreach (var file in Directory.GetFiles(Environment.GetEnvironmentVariable("TEMP") + "\\endlessborland-5836"))
+            {
+                if (file == null) return;
+                var guid = Path.GetFileName(file);
+                var note = localDB.ReadNote(guid);
+                dataGrid.Rows[i].Cells[0].Value = i;
+                dataGrid.Rows[i].Cells[1].Value = note.Info.Title;
+                dataGrid.Rows[i].Cells[3].Value = note.Info.Content;
+                dataGrid.Rows[i].Cells[2].Value = note.Info.EventTime;
+                id_guid.Add(i, note.Guid);
+                i++;
+            }
         }
 
         /// <summary>
@@ -35,7 +62,7 @@ namespace _4EverNote
             else
                 noteCount = 0;
         }
-        
+
         /// <summary>
         /// Downloads all the files from cloud service to local DB
         /// </summary>
@@ -72,6 +99,7 @@ namespace _4EverNote
                 Application.Exit();
             }
             await RefreshLocalDataBaseAsync();
+            RefreshGrid();
         }
 
 
@@ -80,18 +108,77 @@ namespace _4EverNote
         /// </summary>
         private async void addButton_Click(object sender, EventArgs e)
         {
+            if (titleBox.Text == "")
+            {
+                MessageBox.Show("Title cannot be empty");
+                return;
+            }
             var note = new FNote();
             note.Info.Title = titleBox.Text;
             note.Info.Address = addressBox.Text;
             note.Info.Content = contentBox.Text;
             note.Info.Reminder = reminderBox.Text;
-            note.Info.EventTime = eventTime.Value.ToString();
-            note.Info.ReminderTime = eventTime.Value.ToString();
-            note.Info.IsEventSet = true;
-            note.Info.IsReminderSet = true;
+            if (eventSet.Checked)
+                note.Info.EventTime = eventTime.Value.ToString();
+            else
+            {
+                note.Info.EventTime = null;
+                note.Info.IsEventSet = false;
+            }
+            if (reminderSet.Checked)
+                note.Info.ReminderTime = eventTime.Value.ToString();
+            else
+            {
+                note.Info.ReminderTime = null;
+                note.Info.IsReminderSet = false;
+            }
             note.Info.Created = DateTime.Now.ToString();
+            note.Info.IsEventSet = eventSet.Checked;
+            note.Info.IsReminderSet = reminderSet.Checked;
             await note.UploadNoteAsync();
             localDB.WriteNote(note);
+            RefreshGrid();
+        }
+
+        private void eventSet_CheckedChanged(object sender, EventArgs e)
+        {
+            if (eventTime.Enabled)
+                eventTime.Enabled = false;
+            else
+                eventTime.Enabled = true;
+        }
+
+        private void reminderSet_CheckedChanged(object sender, EventArgs e)
+        {
+            if (reminderTime.Enabled)
+                reminderTime.Enabled = false;
+            else
+                reminderTime.Enabled = true;
+        }
+
+        private void exit_Click(object sender, EventArgs e)
+        {
+            ESession.Logout();
+        }
+
+        private async void deleteButton_Click(object sender, EventArgs e)
+        {
+            var thisRow = dataGrid.CurrentRow;
+            var guid = id_guid[int.Parse(thisRow.Cells[0].Value.ToString())];
+            var note = localDB.ReadNote(guid);
+            localDB.DeleteNote(note.Guid);
+            await note.DeleteNoteAsync();
+            RefreshGrid();
+        }
+
+        private void dataGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var thisRow = dataGrid.CurrentRow;
+            var guid = id_guid[int.Parse(thisRow.Cells[0].Value.ToString())];
+            var note = localDB.ReadNote(guid);
+            var window = new NoteWindow(note, ref localDB);
+            window.Show();
+            RefreshGrid();
         }
     }
 }

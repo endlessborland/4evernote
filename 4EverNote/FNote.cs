@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace _4EverNote
 {
-    class FNote
+    public class FNote
     {
         private bool _isValid;
         private Note newNote;
@@ -97,6 +97,16 @@ namespace _4EverNote
                 NoteToJSON();
                 guid = ESession.NoteStore.CreateNote(newNote).Guid;
                 return guid;
+            });
+        }
+
+        public async Task UpdateNoteAsync()
+        {
+            await Task.Run(() =>
+            {
+                NoteToJSON();
+                newNote.Guid = guid;
+                ESession.NoteStore.UpdateNote(newNote);
             });
         }
 

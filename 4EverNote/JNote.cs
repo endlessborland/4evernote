@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace _4EverNote
+﻿namespace _4EverNote
 {
     /// <summary>
     /// This class is used for JSON serialization/deserialization
     /// </summary>
-    class JNote
+    public class JNote
     {
         public bool IsReminderSet { get; set; } // Is the reminder set
         public bool IsEventSet { get; set; } // Is the event time set

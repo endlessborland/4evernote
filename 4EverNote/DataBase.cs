@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace _4EverNote
 {
-    class DataBase
+    public class DataBase
     {
         private string _path;
         public SortedDictionary<string, string> GuidTimeTable;
