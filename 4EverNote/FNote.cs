@@ -1,6 +1,7 @@
 ﻿using Evernote.EDAM.Type;
 using EvernoteSDK.Advanced;
 using Newtonsoft.Json;
+using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -9,25 +10,12 @@ namespace _4EverNote
 {
     public class FNote
     {
-        private bool _isValid;
         private Note newNote;
         private string _serizlized;
         private string guid;
 
         public JNote Info;
 
-        public bool IsValid
-        {
-            get
-            {
-                return _isValid;
-            }
-
-            set
-            {
-                _isValid = value;
-            }
-        }
 
         public string Serizlized
         {
@@ -55,16 +43,16 @@ namespace _4EverNote
             }
         }
 
+        public bool IsValid { get; private set; } = true;
+
         public FNote()
         {
-            _isValid = true;
             newNote = new Note();
             Info = new JNote();
         }
 
         public FNote(string serialized, string GUID)
         {
-            _isValid = true;
             newNote = new Note();
             Info = new JNote();
             guid = GUID;
@@ -127,6 +115,7 @@ namespace _4EverNote
                 catch
                 {
                     MessageBox.Show("Error downloading");
+                    IsValid = false;
                 }
             });
         }
@@ -137,15 +126,14 @@ namespace _4EverNote
         /// <param name="note">Content</param>
         private void ParseToFNote(string noteContent)
         {
-            if (noteContent.StartsWith("4evernote-5836"))
-                goto skip;
-            noteContent = Regex.Match(noteContent, @"(?<=<en-note>)(.*)(?=</en-note>)").ToString();
             if (!noteContent.StartsWith("4evernote-5836"))
             {
-                IsValid = false;
-                return;
+                noteContent = Regex.Match(noteContent, @"(?<=<en-note>)(.*)(?=</en-note>)").ToString();
+                if (!noteContent.StartsWith("4evernote-5836"))
+                {
+                    throw new Exception();
+                }
             }
-            skip:
             _serizlized = noteContent;
             noteContent = noteContent.Substring(14);
             try
@@ -154,7 +142,7 @@ namespace _4EverNote
             }
             catch
             {
-                IsValid = false;
+                throw new Exception();
             }
             
         }

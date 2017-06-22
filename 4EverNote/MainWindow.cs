@@ -33,7 +33,8 @@ namespace _4EverNote
             id_guid.Clear();
             var i = 0;
             GetNoteCount();
-            dataGrid.Rows.Add(noteCount - 1);
+            if (noteCount > 1)
+                dataGrid.Rows.Add(noteCount - 1);
             foreach (var file in Directory.GetFiles(Environment.GetEnvironmentVariable("TEMP") + "\\endlessborland-5836"))
             {
                 if (file == null) return;
@@ -90,6 +91,8 @@ namespace _4EverNote
                     {
                         var fnote = new FNote();
                         await fnote.DownloadNoteAsync(note.Guid);
+                        if (fnote.IsValid == false)
+                            continue;
                         fnote.Guid = note.Guid;
                         localDB.WriteNote(fnote);
                     }
@@ -175,11 +178,18 @@ namespace _4EverNote
                 reminderTime.Enabled = true;
         }
 
+        /// <summary>
+        /// Exit
+        /// </summary>
         private void exit_Click(object sender, EventArgs e)
         {
             ESession.Logout();
+            Application.Exit();
         }
 
+        /// <summary>
+        /// Deletes the note from the cloud and local db
+        /// </summary>
         private async void deleteButton_Click(object sender, EventArgs e)
         {
             var thisRow = dataGrid.CurrentRow;
@@ -190,6 +200,9 @@ namespace _4EverNote
             RefreshGrid();
         }
 
+        /// <summary>
+        /// Shows more info on the note
+        /// </summary>
         private void dataGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             var thisRow = dataGrid.CurrentRow;
@@ -200,6 +213,9 @@ namespace _4EverNote
             window.Show();
         }
 
+        /// <summary>
+        /// An event for when the child window (note window) is closed
+        /// </summary>
         void windowFormClosed(object sender, FormClosedEventArgs e)
         {
             RefreshGrid();

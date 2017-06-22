@@ -93,14 +93,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B50FFD46F55E4EFEB3F28A7CA8132537"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_B6C8FFBD127EB8898AFCFB5EF25F4A1C"
+        "OwnerKey" = "8:_E7EC3D6726DD415CA66CF0DE499E4AE4"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_B6C8FFBD127EB8898AFCFB5EF25F4A1C"
-        "OwnerKey" = "8:_E7EC3D6726DD415CA66CF0DE499E4AE4"
+        "MsmKey" = "8:_B78B9033E683459DB2349C679CFAD861"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -511,26 +511,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B50FFD46F55E4EFEB3F28A7CA8132537"
-            {
-            "SourcePath" = "8:..\\4EverNote\\bin\\Debug\\favicon.ico"
-            "TargetName" = "8:favicon.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_96A4613F8A05405AB43B5349148C5A2F"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B6C8FFBD127EB8898AFCFB5EF25F4A1C"
             {
             "AssemblyRegister" = "3:1"
@@ -560,6 +540,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B78B9033E683459DB2349C679CFAD861"
+            {
+            "SourcePath" = "8:..\\4EverNote\\bin\\Debug\\ficon.ico"
+            "TargetName" = "8:ficon.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_96A4613F8A05405AB43B5349148C5A2F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BE89033D0354E9B4A1095B66DFB59605"
@@ -712,7 +712,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:4EverNote"
         "ProductCode" = "8:{AA8EB5D0-31FC-4CB3-9AA0-05928372E4EF}"
-        "PackageCode" = "8:{F93EFC0F-6B69-46FC-8482-E6148873215D}"
+        "PackageCode" = "8:{9EAE088B-5671-409A-9D4E-09B438EF4D9D}"
         "UpgradeCode" = "8:{A731BB50-72FE-4648-BB9F-253EAB538C98}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -843,7 +843,7 @@
             "Target" = "8:_E7EC3D6726DD415CA66CF0DE499E4AE4"
             "Folder" = "8:_EFB9549830A14537AC7712B12E042D1D"
             "WorkingFolder" = "8:_96A4613F8A05405AB43B5349148C5A2F"
-            "Icon" = "8:_B50FFD46F55E4EFEB3F28A7CA8132537"
+            "Icon" = "8:_B78B9033E683459DB2349C679CFAD861"
             "Feature" = "8:"
             }
         }

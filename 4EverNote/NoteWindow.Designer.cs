@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NoteWindow));
             this.saveButton = new System.Windows.Forms.Button();
             this.titleBox = new System.Windows.Forms.TextBox();
             this.contentBox = new System.Windows.Forms.RichTextBox();
@@ -230,6 +231,7 @@
             this.Controls.Add(this.titleBox);
             this.Controls.Add(this.saveButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "NoteWindow";
             this.Text = "NoteWindow";
             this.Load += new System.EventHandler(this.NoteWindow_Load);
