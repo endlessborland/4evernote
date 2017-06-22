@@ -38,7 +38,6 @@ D:\Desktop\4EverNote\4evernote\4EverNote\bin\Debug\Thrift.dll
 D:\Desktop\4EverNote\4evernote\4EverNote\bin\Debug\AngleSharp.xml
 D:\Desktop\4EverNote\4evernote\4EverNote\bin\Debug\CsQuery.xml
 D:\Desktop\4EverNote\4evernote\4EverNote\bin\Debug\Newtonsoft.Json.xml
-D:\Desktop\4EverNote\4evernote\4EverNote\obj\Debug\4EverNote.csprojResolveAssemblyReference.cache
 D:\Desktop\4EverNote\4evernote\4EverNote\obj\Debug\_4EverNote.MainWindow.resources
 D:\Desktop\4EverNote\4evernote\4EverNote\obj\Debug\_4EverNote.Properties.Resources.resources
 D:\Desktop\4EverNote\4evernote\4EverNote\obj\Debug\4EverNote.csproj.GenerateResource.Cache
