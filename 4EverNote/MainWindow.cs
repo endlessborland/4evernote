@@ -16,8 +16,6 @@ namespace _4EverNote
         private Dictionary<int, string> id_guid;
         private List<KeyValuePair<string, string>> guid_date;
 
-        
-
         public MainWindow()
         {
             InitializeComponent();
