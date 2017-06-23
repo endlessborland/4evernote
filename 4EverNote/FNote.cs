@@ -16,7 +16,6 @@ namespace _4EverNote
 
         public JNote Info;
 
-
         public string Serizlized
         {
             get
@@ -88,6 +87,9 @@ namespace _4EverNote
             });
         }
 
+        /// <summary>
+        /// Updates the note
+        /// </summary>
         public async Task UpdateNoteAsync()
         {
             await Task.Run(() =>

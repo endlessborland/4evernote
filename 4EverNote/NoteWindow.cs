@@ -74,6 +74,7 @@ namespace _4EverNote
             _note.Info.IsReminderSet = reminderSet.Checked;
             await _note.UpdateNoteAsync();
             _localDB.WriteNote(_note);
+            Close();
         }
 
         private void eventSet_CheckedChanged(object sender, EventArgs e)

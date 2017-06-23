@@ -88,7 +88,7 @@ namespace _4EverNote
                 notebook.Name = "4EverNote";
                 _noteBook = _noteStore.CreateNotebook(notebook);
             }
-            // clearing up the mess we made
+            // cleaning up the mess we made
             NotebookList.Clear();
             NotebookList = null;
         }
