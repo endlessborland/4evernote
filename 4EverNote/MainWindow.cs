@@ -29,6 +29,8 @@ namespace _4EverNote
         {
             dataGrid.Rows.Clear();
             id_guid.Clear();
+            if (guid_date != null)
+                guid_date.Clear();
             var i = 0;
             GetNoteCount();
             if (noteCount > 1)

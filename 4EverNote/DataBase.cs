@@ -85,6 +85,7 @@ namespace _4EverNote
                 FNote note;
                 bool reminderExists = false;
                 var GuidTimeTable = new List<KeyValuePair<string, string>>();
+                GuidTimeTable.Clear();
                 string[] files = Directory.GetFiles(_path);
                 foreach (var file in files)
                 {
